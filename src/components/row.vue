@@ -58,6 +58,7 @@
 
     .w-row--flex {
         display: flex;
+        flex-wrap: wrap;
     }
 
     .flex--start {

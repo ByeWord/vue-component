@@ -46,6 +46,10 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 | :-----| :---- | :----|:----|
 | span | [String, Number] | - | 占比，24份|
 | offset | [String,Number] | - | 通过修改margin来修改offset |
+| phone | [String,Object] | - | {span:'',offset:''} |
+| pad | [String,Object] | - | {span:'',offset:''} |
+| narrowPc | [String,Object] | - | {span:'',offset:''} |
+| widePc | [String,Object] | - | {span:'',offset:''} |
 
 收获：<br>
 1.为元素清除浮动
@@ -76,3 +80,72 @@ parent.appendChild(children); // children mounted
 document.body.appendChild(parent);//parent mounted
 ```
 5.为了实现gutter两边的col贴边，通过修改Row的margin-left&right为-gutter/2
+<br>
+**待开发功能响应式col<class中类名顺序无关，仅与CSS中类名的顺序相关>**
+phone <= 576px <br>
+pad >576px & < 768px <br>
+narrowPc > 769px & < 1200px <br>
+widePc >1201px <br>
+
+```
+// 抽离公共校验validator
+  let validator = (value) => {
+    let keys = Object.keys(value);
+    let valid = true;
+    keys.forEach(key => {
+      if (!['span', 'offset'].includes(key)) {
+        valid = false;
+      }
+    });
+    return valid;
+  };
+  export default {
+    name: "WCol",
+    props: {
+      span: [Number, String],
+      offset: [Number, String],
+      phone: {type: Object, validator},
+      pad: {type: Object, validator},
+      narrowPc: {type: Object, validator},
+      widePc: {type: Object, validator}
+    },
+    data() {
+      return {
+        gutter: 0
+      }
+    },
+    computed: {
+      colStyle() {
+        let {gutter} = this;
+        return !!gutter ? {paddingLeft: `${gutter / 2}px`, paddingRight: `${gutter / 2}px`} : ''
+      },
+      colClass() {
+        let {span, offset, phone, pad, narrowPc, pc, widePc} = this;
+
+        //抽象出一个类名生成器
+        let createClasses = (data, str = "") => {
+          if (!data) return [];
+          let array = [];
+          if (data.span) {
+            array.push(`w-col-${str}${data.span}`)
+          }
+
+          if (data.offset) {
+            array.push(`w-col-offset-${str}${data.offset}`)
+          }
+          return array;
+        };
+        span = span ? span : 24;
+        return [
+          ...createClasses({span, offset}),
+          ...createClasses(phone, 'phone-'),
+          ...createClasses(pad, 'pad-'),
+          ...createClasses(narrowPc, 'narrow-pc-'),
+          ...createClasses(pc, 'pc-'),
+          ...createClasses(widePc, 'wide-pc-')
+        ]
+      }
+    }
+  }
+</script>
+```
