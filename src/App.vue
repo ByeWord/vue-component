@@ -20,7 +20,7 @@
         this.$toast({
           message: '<h1>Hello World</h1>',
           dangerouslyUseHTMLString: true,
-          position:'middle'
+          position:'left'
         })
       }
     }

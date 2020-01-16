@@ -12,6 +12,7 @@ $toast-shadow:0 0 3px 0px rgba(0,0,0,.5)
 1. 可手动关闭,关闭回调       [你的消息]|[关闭]
 2. 可定时自动关闭
 3. 可以定制出现的位置 [左|右|上|下|中]
+4. 不同位置不同动画
 
 ###Vue plugin,Vue.extend,vm.$mount,vm.$el
 1. Vue plugin的用法，your-plugin提供install函数(Vue)=>Vue.use(your-plugin)
