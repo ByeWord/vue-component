@@ -34,7 +34,7 @@ npm run test:unit
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 #Progress
-##2019/01/15
+##2020/01/15
 ###开发组件[Row,Col]
 ####Row Props
 | 属性 | 类型 | 默认值 | Comments|
@@ -149,7 +149,8 @@ widePc >1201px <br>
   }
 </script>
 ```
-
+#Layout
+##2020/01/16
 完成基本Layout组件
 TODO
 1. 需要完善和添加sider的隐藏动画
