@@ -1,6 +1,7 @@
 <template>
-    <div class="w-toast" :class="[showClose?'is-closable':'']">
-        <div class="w-toast-content">
+    <div class="w-toast" :class="[showClose?'is-closable':'',toastPosClass]">
+        <div v-if="dangerouslyUseHTMLString" class="w-toast-content" v-html="message"></div>
+        <div v-else class="w-toast-content" v-html="message">
             {{message}}
         </div>
         <div class="w-toast-action" @click="close" v-if="showClose">
@@ -30,6 +31,17 @@
             console.log('关闭toast')
           }
         })
+      },
+      dangerouslyUseHTMLString: {
+        type: Boolean,
+        default: false
+      },
+      position: {
+        type: String,
+        default: 'top',
+        validator(value) {
+          return ['top', 'bottom', 'left', 'right','middle'].indexOf(value) >= 0
+        }
       }
     },
     mounted() {
@@ -45,6 +57,11 @@
       onClickClose() {
         this.closeButton.callback && this.closeButton.callback();
         this.close();
+      }
+    },
+    computed: {
+      toastPosClass() {
+        return [`w-toast-${this.position}`]
       }
     }
   }
@@ -72,10 +89,42 @@
 
         display: flex;
         align-items: center;
+        justify-content: space-between;
 
         padding: 16px;
         min-width: 360px;
         box-sizing: border-box;
+
+        &-top {
+            top: 10px;
+            left: 50%;
+            transform: translate(-50%, 0);
+        }
+
+        &-left {
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        &-right {
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        &-bottom {
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        &-middle{
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+
+        .w-toast-content {
+            flex: 1;
+        }
 
         .w-toast-action {
             flex-shrink: 0;
