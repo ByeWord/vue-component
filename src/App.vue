@@ -1,40 +1,20 @@
 <template>
   <div id="app">
-    <div class="test-row-col"></div>
-    <w-row type="flex">
-        <w-col
-                span="24"
-                :phone="{span:24}"
-                :pad="{span:12}"
-                :narrow-pc="{span:8,offset:16}"
-        >
-            <div class="demo"></div>
-        </w-col>
-        <w-col
-                span="24"
-                :phone="{span:24}"
-                :pad="{span:12}"
-                :narrow-pc="{span:8,offset:16}"
-        ><div class="demo"></div></w-col>
-        <w-col
-                span="24"
-                :phone="{span:24}"
-                :pad="{span:12}"
-                :narrow-pc="{span:8,offset:16}"
-        ><div class="demo"></div></w-col>
-    </w-row>
+    <button @click="showToast">toast</button>
   </div>
 </template>
 
 <script>
-import WRow from '@/components/row.vue';
-import WCol from '@/components/col.vue';
 
 export default {
   name: 'app',
   components: {
-    WRow,
-    WCol
+
+  },
+  methods:{
+    showToast(){
+      this.$toast('Hello Toast')
+    }
   }
 }
 </script>
