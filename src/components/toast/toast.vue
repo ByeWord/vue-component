@@ -5,7 +5,7 @@
             <div v-else class="w-toast-content" v-html="message">
                 {{message}}
             </div>
-            <div class="w-toast-action" @click="close" v-if="showClose">
+            <div class="w-toast-action" @click="onClickClose" v-if="showClose">
                 {{closeButton.text}}
             </div>
         </div>
