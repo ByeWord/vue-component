@@ -51,7 +51,7 @@
     },
     methods: {
       listenToRemoteResources() {
-        let tags = this.$refs.viewBox.querySelectorAll('img, video, audio')
+        let tags = this.$refs.viewBox.querySelectorAll('img, video, audio');
         Array.from(tags).map((tag) => {
           if (tag.hasAttribute('data-listened')) {
             return
