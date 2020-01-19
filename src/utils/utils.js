@@ -7,10 +7,6 @@ export function calVisibleHeight(element) {
   borderTopWidth = parseInt(borderTopWidth);
   return height - paddingTop - paddingBottom - borderTopWidth - borderBottomWidth;
 }
-//TODO set the name for this function
-export function willName(element) {
-
-}
 
 export function bindMoveDragByPos(el) {
   let start = {};

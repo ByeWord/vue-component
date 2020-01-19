@@ -1,5 +1,9 @@
 <template>
-    <div ref="viewBox" class="w-scroll-wrapper" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
+    <div ref="viewBox" class="w-scroll-wrapper"
+         @mouseenter="onMouseEnter"
+         @mouseleave="onMouseLeave"
+         @wheel="onWheel"
+    >
         <div ref="content" class="w-scroll" :style="{transform:`translateY(${contentTranslateY}px)`}">
             <slot></slot>
         </div>
@@ -18,7 +22,12 @@
 
   export default {
     name: "w-scroll",
-    props: {},
+    props: {
+      step: {
+        type: Number,
+        default: 100
+      }
+    },
     data() {
       return {
         trackHeight: 0,
@@ -32,10 +41,45 @@
         visibleHeight: 0,
       }
     },
+    computed: {
+      contentMaxTranslateY() {
+        return this.contentHeight - this.visibleHeight;
+      },
+      scrollBarMaxTranslateY() {
+        return this.trackHeight - this.scrollBarHeight;
+      }
+    },
     methods: {
-      updateScrollBar(translateY, contentHeight, viewHeight, trackHeight) {
-        this.scrollBarHeight = viewHeight * trackHeight / contentHeight;
-        this.scrollBarTranslate.y = -translateY * trackHeight / contentHeight;
+      listenToRemoteResources() {
+        let tags = this.$refs.viewBox.querySelectorAll('img, video, audio')
+        Array.from(tags).map((tag) => {
+          if (tag.hasAttribute('data-listened')) {
+            return
+          }
+          tag.setAttribute('data-listened', 'yes');
+          tag.addEventListener('load', () => {
+            this.init();
+          })
+        })
+      },
+      listenToDomChange() {
+        const targetNode = this.$refs.content;
+        const config = {attributes: true, childList: true, subtree: true};
+        const callback = () => {
+          this.listenToRemoteResources()
+        };
+        const observer = new MutationObserver(callback);
+        observer.observe(targetNode, config);
+      },
+      updateScrollBarHeight() {
+        this.scrollBarHeight = this.visibleHeight * this.trackHeight / this.contentHeight;
+      },
+      updateScrollBar() {
+        this.updateScrollBarHeight();
+        this.scrollBarTranslate.y = -this.contentTranslateY * this.trackHeight / this.contentHeight;
+      },
+      updateContentTranslateYByMouse() {
+        this.contentTranslateY = -this.contentHeight * this.scrollBarTranslate.y / this.visibleHeight;
       },
       onMouseDownScrollBar(e) {
         this.scrollBarMoving = true;
@@ -45,20 +89,26 @@
       },
       onMouseMoveScrollBar(e) {
         if (this.scrollBarMoving) {
-          let end = {x: e.pageX, y: e.pageY};
-          let deltaY = end.y - this.scrollBarStartPos.y;
-          this.scrollBarStartPos = end;
-          this.scrollBarTranslate.y = this.scrollBarTranslate.y + deltaY;
-          if (this.scrollBarTranslate.y <= 0) {
+          let deltaY = e.pageY - this.scrollBarStartPos.y;
+          this.scrollBarStartPos = {x: e.pageX, y: e.pageY};
+
+          let willScrollBarTranslate = this.scrollBarTranslate.y + deltaY;
+          // 限制scroll bar移动距离
+          if (willScrollBarTranslate <= 0) {
             this.scrollBarTranslate.y = 0;
-          } else if (this.scrollBarTranslate.y >= (this.trackHeight - this.scrollBarHeight)) {
-            this.scrollBarTranslate.y = this.trackHeight - this.scrollBarHeight;
+          } else if (willScrollBarTranslate >= this.scrollBarMaxTranslateY) {
+            this.scrollBarTranslate.y = this.scrollBarMaxTranslateY;
+          } else {
+            this.scrollBarTranslate.y = willScrollBarTranslate;
           }
-          this.contentTranslateY = -this.contentHeight * this.scrollBarTranslate.y / this.visibleHeight;
+          this.updateContentTranslateYByMouse();
         }
       },
       onMouseUpScrollBar(e) {
         this.scrollBarMoving = false;
+        this.listenToDoc();
+      },
+      listenToDoc() {
         document.removeEventListener('mouseup', this.onMouseUpScrollBar);
         document.removeEventListener('mousemove', this.onMouseMoveScrollBar);
       },
@@ -67,46 +117,51 @@
       },
       onMouseLeave() {
         this.scrollBarVisible = false;
+      },
+      onWheel(event) {
+        this.updateContentTranslateY(event);
+        this.updateScrollBar();
+      },
+      updateContentTranslateY(event) {
+
+        let direction = event.deltaY;
+
+        // 限制内容滚动距离
+        if (direction > 0) {
+          this.contentTranslateY -= this.step;
+          if (this.contentTranslateY <= -this.contentMaxTranslateY) {
+            this.contentTranslateY = -this.contentMaxTranslateY;
+          }
+        } else if (direction < 0) {
+          this.contentTranslateY += this.step;
+          if (this.contentTranslateY >= 0) {
+            this.contentTranslateY = 0;
+          }
+        }
+        //解决内容滚动到
+        let limit = Math.abs(-this.contentTranslateY);
+        if (0 < limit && limit < this.contentMaxTranslateY) {
+          event.preventDefault();
+        }
+      },
+      init() {
+        let viewBoxEl = this.$refs.viewBox;
+
+        this.contentHeight = this.$refs.content.offsetHeight;
+
+        this.trackHeight = viewBoxEl.clientHeight;
+
+        this.visibleHeight = calVisibleHeight(viewBoxEl);
+
+        this.updateScrollBar();
+
+        this.listenToRemoteResources();
+
+        this.listenToDomChange();
       }
     },
     mounted() {
-
-      let viewBoxEl = this.$refs.viewBox;
-      let contentEl = this.$refs.content;
-
-      this.contentHeight = contentEl.offsetHeight;
-
-      this.trackHeight = viewBoxEl.clientHeight;
-
-      this.visibleHeight = calVisibleHeight(viewBoxEl);
-
-      let minTranslate = 0;
-
-      let maxTranslate = this.contentHeight - this.visibleHeight;
-
-      let step = 100;
-
-      this.updateScrollBar(this.contentTranslateY, this.contentHeight, this.visibleHeight, this.trackHeight);
-
-      viewBoxEl.addEventListener('wheel', (event) => {
-        let direction = event.deltaY;
-        if (direction > 0) {
-          this.contentTranslateY -= step;
-          if (this.contentTranslateY <= -maxTranslate) {
-            this.contentTranslateY = -maxTranslate;
-          }
-        } else if (direction < 0) {
-          this.contentTranslateY += step;
-          if (this.contentTranslateY >= minTranslate) {
-            this.contentTranslateY = minTranslate;
-          }
-        }
-
-        if (minTranslate < Math.abs(this.contentTranslateY) && Math.abs(this.contentTranslateY) < maxTranslate) {
-          event.preventDefault();
-        }
-        this.updateScrollBar(this.contentTranslateY, this.contentHeight, this.visibleHeight, this.trackHeight);
-      });
+      this.init();
     }
   }
 </script>
