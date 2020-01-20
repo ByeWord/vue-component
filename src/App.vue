@@ -1,18 +1,15 @@
 <template>
-  <div id="app">
+    <div id="app">
 
-  </div>
+    </div>
 </template>
 
 <script>
 
-export default {
-  name: 'app',
-  components: {
-    WRow,
-    WCol
+  export default {
+    name: 'app',
+    components: {}
   }
-}
 </script>
 
 <style lang="scss">
