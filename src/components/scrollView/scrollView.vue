@@ -172,12 +172,9 @@
         transition: transform .05s ease-in-out;
         overflow: hidden; //触发BFC
         &-wrapper {
-            height: 500px;
-            width: 400px;
             overflow: hidden;
             position: relative;
             box-sizing: border-box;
-            border: 10px solid crimson;
         }
         &-track {
             position: absolute;

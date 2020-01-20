@@ -102,63 +102,23 @@
             <p>99</p>
             <p>100</p>
         </w-scroll>
-        <div class="test" ref="test">test</div>
     </div>
 </template>
 <script>
 
 
-  import WScroll from "./components/tabs/scroll";
-  import {bindMoveDragByTrans} from "./utils/utils";
+  import WScroll from "./components/scrollView/scrollView";
 
   export default {
     name: 'app',
     components: {WScroll},
     data() {
       return {
-        selectedTab: 'sport'
+
       }
     },
-    methods: {
-      mouseMove() {
-        let test = this.$refs.test;
-        let start = {};
-        let isMoving = false;
-        let translate = {x: 0, y: 0, z: 1};
-        test.addEventListener('mousedown', (e) => {
-          isMoving = true;
-          start = {x: e.pageX, y: e.pageY};
-          console.log('mousedown')
-        });
-        test.addEventListener('mousemove', (e) => {
-          console.log('mousemove');
-          if (isMoving) {
-            let end = {x: e.pageX, y: e.pageY};
-            let deltaX = end.x - start.x;
-            let deltaY = end.y - start.y;
-            start = end;
-            translate.x = translate.x + deltaX;
-            translate.y = translate.y + deltaY;
-            test.style.transform = `translate3d(${translate.x}px,${translate.y}px,${translate.z}px)`;
-          }
-        });
-        test.addEventListener('mouseup', (e) => {
-          isMoving = false;
-          console.log(translate)
-        });
-      }
-    },
-    mounted() {
-      bindMoveDragByTrans(this.$refs.test)
-    }
   }
 </script>
 <style lang="scss">
-    .test {
-        height: 200px;
-        width: 200px;
-        position: absolute;
-        background-color: gainsboro;
-        cursor: pointer;
-    }
+
 </style>
