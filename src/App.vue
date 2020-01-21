@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <!--<w-pager :total-page="totalPage" :current-page="currentPage" @onChange="handlePageChange"></w-pager>-->
-        <w-pagination :total="100" :current-page-number="1" @pageNumberChange="handlePageChange"></w-pagination>
+        <w-pagination :total="total" :current-page-number="currentPage" @pageNumberChange="handlePageChange"></w-pagination>
     </div>
 </template>
 
@@ -16,7 +16,7 @@
     data(){
       return {
         currentPage: 1,
-        totalPage: 20
+        total: 500
       }
     },
     methods:{

@@ -14,7 +14,7 @@
             </li>
         </ul>
         <div class="w-pagination-jump">
-            <select class="pageSelect" @change="handleSelectPageCount($event)">
+            <select class="w-pagination-jump-pageSelect" @change="handleSelectPageCount($event)">
                 <option v-for="(num,ide) in pageSizes" :key="ide" :value="num">{{num}}条/页</option>
             </select>
             <input type="text" v-model="targetPageNumber" @keyup.enter="submit($event)">
@@ -48,42 +48,56 @@
     data() {
       return {
         targetPageNumber: 1, //跳转的目标页面
-        currentPageSize: this.pageSizes[0]
+        pageSize: this.pageSizes[0]
       }
     },
     computed: {
       totalPages() {
-        return Math.ceil(this.total / this.currentPageSize) || 1;
+        return Math.ceil(this.total / this.pageSize) || 1;
       },
       pageNumbers() {//计算显示的页码块数量
+        let allPageNumbers = this.allPageNumbers;
+        let starPagePos = this.pageStartPos;
+        let result = allPageNumbers.slice(starPagePos, starPagePos+this.pageGroup);
+        return result;
+      },
+      allPageNumbers() {
         let len = this.totalPages;
-        let count = Math.floor(this.pageGroup / 2);
-        let center = this.currentPage;
-        let temp = [];
+        let result = [];
         // 总页码数小于设置页码数
         if (len < this.pageGroup) {
           while (len--) {
-            temp.push(this.totalPages - len);
+            result.push(this.totalPages - len);
           }
-          return temp;
+          return result;
         }
         // 总页码数大于设置页码数
         while (len--) {
-          temp.push(this.totalPages - len);
+          result.push(this.totalPages - len);
         }
-        let idx = temp.indexOf(center);
-        if (idx <= count) {
-          center = center + count - idx;
-        } else if (idx > this.totalPages - count - 1) {
-          center = this.totalPages - count;
+        console.log(result.length)
+        return result;
+      },
+      pageStartPos() {
+        // find the index of the target element
+        let targetIdx = this.allPageNumbers.indexOf(this.currentPageNumber);
+        let dividing = Math.floor(this.pageGroup / 2);
+        // calculate the start position
+        let startPos = 0;
+        if (targetIdx <= dividing) {// situation-1 targetIdx is in [0,range/2]
+          startPos = 0;
+        } else if (targetIdx > this.totalPages - 1 - dividing) {// situation-2 targetIdx is in [maxIndex-range/2,maxIndex]
+          startPos = this.totalPages - this.pageGroup;
+        } else {
+          startPos = targetIdx - dividing
         }
-        temp = temp.splice(center - count - 1, this.pageGroup);
-        return temp;
+        return startPos
       }
     },
     methods: {
       skipToPage(pageNumber) {
         if (pageNumber >= 1 && pageNumber <= this.totalPages) {
+          console.log(pageNumber)
           this.$emit('pageNumberChange', {page: pageNumber, pageSize: this.pageSize});
         }
       },
@@ -98,7 +112,68 @@
 </script>
 
 <style lang="scss" scoped>
-    .active{
-        color: crimson;
+    .active {
+        color: #fff;
+        background-color: crimson;
+    }
+
+    .disabled {
+        color: #d9d9d9;
+        user-select: none;
+    }
+
+    .w-pagination {
+        display: inline-flex;
+        align-items: center;
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        &-info {
+
+        }
+        &-nav {
+            display: inline-flex;
+            li {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-sizing: border-box;
+                height: 32px;
+                padding: 0 8px;
+                min-width: 32px;
+                border: 1px solid #d9d9d9;
+                cursor: pointer;
+                transition: all 0.3s linear;
+                &:not(:first-child) {
+                    margin-left: 8px;
+                }
+                &:not(.disabled):hover {
+                    color: #fff;
+                    background-color: crimson;
+                }
+            }
+        }
+        &-jump {
+            margin-left: 8px;
+            display: inline-flex;
+            align-items: center;
+            &-pageSelect, input, span {
+                height: 32px;
+                box-sizing: border-box;
+            }
+            span {
+                display: inline-block;
+                height: 32px;
+                padding: 0 8px;
+                min-width: 32px;
+                line-height: 32px;
+                border: 1px solid #d9d9d9;
+                cursor: pointer;
+                transition: all 0.3s linear;
+                background-color: #d9d9d9;
+            }
+        }
     }
 </style>
