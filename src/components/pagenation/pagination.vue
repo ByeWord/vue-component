@@ -42,7 +42,7 @@
       },
       pageGroup: {//展示页码项目数量
         type: Number,
-        default: 5
+        default: 7
       }
     },
     data() {

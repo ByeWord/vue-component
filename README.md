@@ -1,84 +1,35 @@
-#2020/01/20
-##学习开发一个基础pagination
-###API设计
-1. total 总条数
-2. currentPage 当前页码
-3. hideIfSinglePage 只有一条数据是是否不显示
-4. onChange 页码改变时触发
+#2020/01/21
+##开发table组件
+###功能
+1. 展示数据后是否带边框
+2. 选中数据（单选/全选）
+3. 展示排序
+4. 筛选/搜索
+5. 固定表头/列
+6. 可展开
 
-###相关公式
-1. 总页数:totalPage = Math.ceil(total / pageSize)
+###API
+1. dataSource
+2. columns
+3. numberVisible
+4. onSelect
+5. onSelectAll
+6. selected
 
-2. 当前页面的页码数量:pageBlockList分为以下情况
-1. 总页数少于设置页码数量
-		直接按照总页数个数显示
-2. 总页数大于等于设置的页码数量，在有序序列中查找出指定元素前后共n个元素的序列
-		[开始页|..当前页..|结束页]
-```ecmascript 6
-// 在有序序列中查找出指定元素前后共n(n>该序列的长度)个元素的序列
-let range = 6;
-let target1 = 1;
-let target2 = 2;
-let target3 = 3;
-let target4 = 9;
-let target5 = 5;
-let sortedArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+###单向数据流实现单选全选
+1. 父组件传递selected，子组件只需通知父组件数据发生变化
 
-// find the index of the target element
-let targetIdx = sortedArray.indexOf(target3);
-let dividing = Math.floor(range / 2);
-// calculate the start position
-let startPos = 0;
-if (targetIdx <= dividing) {// situation-1 targetIdx is in [0,range/2]
-  startPos = 0;
-} else if (targetIdx > sortedArray.length - 1 - dividing) {// situation-2 targetIdx is in [maxIndex-range/2,maxIndex]
-  startPos = sortedArray.length - range;
-} else {
-  startPos = targetIdx - dividing
-}
+###深拷贝的作用
+1. 拷贝后是两个对象，不能用===或者indexOf的操作其是否为同一个对象
+2. 操作数据，为了不破坏原始数据，而使用深拷贝
 
+###watch操作
 
-function maxIndexOf(array) {
-  if (!Array.isArray(array)) {
-    throw new TypeError('')
-  }
-  return array.length - 1;
-}
+#2020/01/22
+#开发固定表头和排序
 
-console.log(sortedArray.splice(startPos, range));
+##排序 orderBy:{filed:'desc'}
+1. 在props中的validator中无法访问this
+2. 某些域无法进行排序
 
-```		
-
-###页码的处理1：数组去重、排序
-```
-let pages = [1,this.totalPage,this.currentPage,this.currentPage-1,this.currentPage-2,this.currentPage+1,this.currentPage+2]
-```
-1. 去重
-1.1 使用Set
-```
-let result = [...new Set(your-array)]
-```
-1.2. 使用对象转换
-```
-let obj = {};
-your-array.reduce((cur,num)=>{
-  returb obj[num] = true
-},obj)
-// 涉及到面试知识点 your-array.map(parseInt)错误用法,parseInt(str,进制)而map需要的回调(item,index)=>
-let result = Object.keys(obj).map(strNum=>parseInt(strNum));
-```
-2. 使用数组的API sort(your-comparator),不传回调默认使用字符串的方式排序
-```
-your.array.sort((a,b)=>a-b)
-```
-###页码处理2：省略号处理
-```
-let uniqueArray = [...]
-let result = uniqueArray.reduce((prev,current,index,array)=>{
-  prev.push(current);
-  array[index+1] !== undefined && array[index+1] - array[index] >1 && prev.push('...');
-  return prev;
-},[])
-```
-###一个标签内使用不同标签
-1. 使用template标签结合v-if/v-else-if/v-else
+##
