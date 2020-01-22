@@ -32,4 +32,5 @@
 1. 在props中的validator中无法访问this
 2. 某些域无法进行排序
 
-##
+##固定表头解决方案,<tbody></tbody>滚动
+> 双table
