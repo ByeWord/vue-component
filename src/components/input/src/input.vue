@@ -3,13 +3,16 @@
         <input
                 class="w-input-inner"
                 :type="type"
-                :readonly="readOnly"
+                :readonly="readonly"
                 :disabled="disabled"
                 :value="value"
+                @input="$emit('input',$event.target.value)"
+                @focus="$emit('focus',$event)"
+                @blur="$emit('blur',$event)"
         >
         <template v-if="error">
             <w-icon name="information" class="icon-error"></w-icon>
-            <span class="error-info">{{errorMsg}}</span>
+            <span class="error-info">{{error}}</span>
         </template>
     </div>
 </template>
@@ -23,28 +26,23 @@
       WIcon
     },
     props: {
-      type:{
-        type:String,
-        default:"text"
+      type: {
+        type: String,
+        default: "text"
       },
       disabled: {
         type: Boolean,
         default: false
       },
-      readOnly:{
-        type:Boolean,
+      readonly: {
+        type: Boolean,
         default: false
       },
-      value:{
-        type:String
+      value: {
+        type: String
       },
-      errorMsg:{
-        type:String
-      }
-    },
-    data(){
-      return {
-        error:true
+      error: {
+        type: String
       }
     }
   }
@@ -55,12 +53,12 @@
     $input-border-color: #999;
     $input-border-color-hover: #666;
     $input-box-shadow-color: rgba(0, 0, 0, 0.5);
-    $red:#F1453D;
+    $red: #F1453D;
     .w-input {
         font-size: $input-font-size;
         display: inline-flex;
         align-items: center;
-        >:not(:last-child){
+        > :not(:last-child) {
             margin-right: 0.5em;
         }
         &-inner {
@@ -76,7 +74,7 @@
             &:focus {
                 box-shadow: inset 0 0 3px $input-box-shadow-color;
             }
-            &[disabled],&[readonly] {
+            &[disabled], &[readonly] {
                 background-color: #f5f7fa;
                 border-color: #e4e7ed;
                 color: #c0c4cc;
@@ -86,11 +84,12 @@
                 }
             }
         }
-        .icon-error{
+        .icon-error {
             fill: $red;
         }
-        .error-info{
+        .error-info {
             color: $red;
+            font-size: 12px;
         }
     }
 </style>

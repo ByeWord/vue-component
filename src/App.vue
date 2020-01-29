@@ -70,9 +70,9 @@
         </div>
         <div class="demo">
             <div class="basic-input-demo">
-                <w-input></w-input>
-                <w-input disabled value="disabled"></w-input>
-                <w-input read-only value="read-only"></w-input>
+                <w-input v-model="inputValue"></w-input>
+                <w-input disabled v-model="inputValue" error="密码不能少于6位"></w-input>
+                <w-input readonly v-model="inputValue" error="密码不能少于6位"></w-input>
             </div>
         </div>
     </div>
@@ -86,6 +86,11 @@
   export default {
     name: 'app',
     components: {WIcon, WButton,WInput},
+    data(){
+      return{
+        inputValue:''
+      }
+    }
   }
 </script>
 
@@ -119,5 +124,6 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
+        flex-wrap: wrap;
     }
 </style>
