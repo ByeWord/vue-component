@@ -1,9 +1,17 @@
 #VUE UI组件库
 
 ##介绍
-1. 安装
-##开始使用
+学习Vue过程中做的一个UI组件库
 
+##开始使用
+1. 安装
+2. 默认css样式开启box-sizing: border-box
+```scss
+*,*::before,*::after{
+    box-sizing: border-box;
+}
+```
+3. icon图标来源[iconfont](https://www.iconfont.cn/manage/index?manage_type=myprojects&projectId=1622939)
 ##文档
 
 ##提问
