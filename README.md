@@ -12,12 +12,3 @@
 }
 ```
 3. icon图标来源[iconfont](https://www.iconfont.cn/manage/index?manage_type=myprojects&projectId=1622939)
-##文档
-
-##提问
-
-##变更记录
-
-##联系方式
-
-##贡献代码

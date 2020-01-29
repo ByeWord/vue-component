@@ -22,5 +22,8 @@
         height: 1em;
         fill: currentColor;
         overflow: hidden;
+        &--right{
+            margin-left: 6px;
+        }
     }
 </style>

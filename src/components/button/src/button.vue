@@ -1,8 +1,8 @@
 <template>
     <button class="w-button"
             :class="[
-              type ? 'el-button--' + type : '',
-              buttonSize ? 'el-button--' + buttonSize : '',
+              type ? 'w-button--' + type : '',
+              buttonSize ? 'w-button--' + buttonSize : '',
               {
                 'is-disabled': buttonDisabled,
                 'is-loading': loading,
@@ -11,15 +11,18 @@
                 'is-circle': circle
               }
     ]"
-    :type="nativeType"
+            :type="nativeType"
+            @click="onClick"
     >
-        <w-icon v-if="icon" :name="icon"></w-icon>
-        <span v-if="$slots.default"><slot></slot></span>
+        <w-icon v-if="icon&&!loading" :name="icon"></w-icon>
+        <w-icon v-if="loading" class="loading" name="loading"></w-icon>
+        <span :class="{hasIcon:!!icon}" class="w-button-slot-wrapper" v-if="$slots.default"><slot></slot></span>
     </button>
 </template>
 
 <script>
   import WIcon from "../../icon/src/icon";
+
   export default {
     name: "WButton",
     components: {WIcon},
@@ -34,8 +37,8 @@
       buttonSize: {
         type: String
       },
-      nativeType:{
-        type:String,
+      nativeType: {
+        type: String,
         default: 'button'
       },
       buttonDisabled: Boolean,
@@ -43,60 +46,177 @@
       plain: Boolean,
       round: Boolean,
       circle: Boolean
+    },
+    methods: {
+      onClick(evt) {
+        if (!this.buttonDisabled)
+          this.$emit('click', evt);
+      }
     }
   }
 </script>
 
 <style lang="scss" scoped>
+    //css技巧：默认样式排在前 互斥样式
     @import "../../../assets/css/var";
+
     .w-button {
         display: flex;
         align-items: center;
         justify-content: center;
-        height: $button-height;
         border: $button-border;
         background-color: $button-bgc;
-        padding: 0 15px;
+        padding: 12px 20px;
         border-radius: $button-border-radius;
         transition: all 0.2s ease-in-out;
         &:hover {
-            border-color: $button-hover-border-color;
-            background-color: $button-hover-bgc;
+            background: #66b1ff;
+            border-color: #66b1ff;
+            color: #fff;
         }
         //type
-        &--success{
-
+        &--success {
+            color: #fff;
+            background-color: #67c23a;
+            border-color: #67c23a;
+            &.is-plain {
+                color: #67c23a;
+                background: #f0f9eb;
+                border-color: #c2e7b0;
+                &:hover {
+                    color: #fff;
+                    background-color: #67c23a;
+                    border-color: #67c23a;
+                }
+            }
+            &:hover {
+                background: #85ce61;
+                border-color: #85ce61;
+            }
         }
-        &--warning{
-
+        &--warning {
+            color: #fff;
+            background-color: #e6a23c;
+            border-color: #e6a23c;
+            &.is-plain {
+                color: #e6a23c;
+                background: #fdf6ec;
+                border-color: #f5dab1;
+                &:hover {
+                    color: #fff;
+                    background-color: #e6a23c;
+                    border-color: #e6a23c;
+                }
+            }
+            &:hover {
+                background: #ebb563;
+                border-color: #ebb563;
+            }
         }
-        &--primary{
-
+        &--danger {
+            color: #fff;
+            background-color: #f56c6c;
+            border-color: #f56c6c;
+            &.is-plain {
+                color: #f56c6c;
+                background: #fef0f0;
+                border-color: #fbc4c4;
+                &:hover {
+                    color: #fff;
+                    background-color: #f56c6c;
+                    border-color: #f56c6c;
+                }
+            }
+            &:hover {
+                background: #f78989;
+                border-color: #f78989;
+            }
+        }
+        &--primary {
+            color: #fff;
+            background-color: #409eff;
+            border-color: #409eff;
+            &.is-plain {
+                color: #409eff;
+                background: #ecf5ff;
+                border-color: #b3d8ff;
+                &:hover {
+                    background-color: #409eff;
+                    border-color: #409eff;
+                    color: #fff;
+                }
+            }
+            &:hover {
+                background: #66b1ff;
+                border-color: #66b1ff;
+            }
         }
         // size
         &--small {
-            height: $button-small-height;
+            padding: 6px 12px;
         }
         &--min {
-            height: $button-min-height;
+            padding: 2px 12px;
             font-size: $button-min-font-size;
-            padding: 0 8px;
         }
         //state
-        &.is-disabled{
+        &.is-disabled {
+            cursor: not-allowed;
+            background-color: #fff;
+            border-color: #ebeef5;
+            color: #c0c4cc;
+            &.w-button--primary{
+                background: #ecf5ff;
+                border-color: #c3ccd6;
+            }
+            &.w-button--success{
+                background: #f0f9eb;
+                border-color: #d0d9cb;
+            }
+            &.w-button--warning{
+                background: #fdf6ec;
+                border-color: #e1dad0;
+            }
+            &.w-button--danger{
+                background: #fef0f0;
+                border-color: #ddcfcf;
+            }
+        }
+        &.is-loading {
 
         }
-        &.is-loading{
-
+        &.is-round {
+            border-radius: 20px;
+            padding: 12px 23px;
         }
-        &.is-plain{
-
+        &.is-circle {
+            border-radius: 50%;
+            padding: 12px;
         }
-        &.is-round{
-
+        .w-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            &.loading {
+                animation: spin 2s infinite linear;
+            }
         }
-        &.is-circle{
+        .hasIcon{
+            margin-left: 6px;
+        }
+        &-slot-wrapper{
+            display: flex;
+            align-items: center;
+        }
 
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
         }
     }
 </style>
