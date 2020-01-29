@@ -49,8 +49,8 @@
     },
     methods: {
       onClick(evt) {
-        if (!this.buttonDisabled)
-          this.$emit('click', evt);
+        if (this.buttonDisabled || this.loading) return;
+        this.$emit('click', evt);
       }
     }
   }
@@ -69,6 +69,7 @@
         padding: 12px 20px;
         border-radius: $button-border-radius;
         transition: all 0.2s ease-in-out;
+        position: relative;
         &:hover {
             background: #66b1ff;
             border-color: #66b1ff;
@@ -165,25 +166,37 @@
             background-color: #fff;
             border-color: #ebeef5;
             color: #c0c4cc;
-            &.w-button--primary{
+            &.w-button--primary {
                 background: #ecf5ff;
                 border-color: #c3ccd6;
             }
-            &.w-button--success{
+            &.w-button--success {
                 background: #f0f9eb;
                 border-color: #d0d9cb;
             }
-            &.w-button--warning{
+            &.w-button--warning {
                 background: #fdf6ec;
                 border-color: #e1dad0;
             }
-            &.w-button--danger{
+            &.w-button--danger {
                 background: #fef0f0;
                 border-color: #ddcfcf;
             }
         }
         &.is-loading {
-
+            position: relative;
+            pointer-events: none;
+            &::before {
+                pointer-events: none;
+                content: "";
+                position: absolute;
+                left: -1px;
+                top: -1px;
+                right: -1px;
+                bottom: -1px;
+                border-radius: inherit;
+                background-color: hsla(0, 0%, 100%, .35);
+            }
         }
         &.is-round {
             border-radius: 20px;
@@ -201,10 +214,10 @@
                 animation: spin 2s infinite linear;
             }
         }
-        .hasIcon{
+        .hasIcon {
             margin-left: 6px;
         }
-        &-slot-wrapper{
+        &-slot-wrapper {
             display: flex;
             align-items: center;
         }

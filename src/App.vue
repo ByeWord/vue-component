@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <div class="btn-demo">
+        <div class="demo">
             <div class="basic-btn basic-btn-demo">
                 <w-button>默认按钮</w-button>
                 <w-button type="primary">主要按钮</w-button>
@@ -56,9 +56,23 @@
                 <w-button type="warning">警告按钮
                     <w-icon name="search" class="w-icon--right"></w-icon>
                 </w-button>
-                <w-button type="success">成功按钮
+                <w-button type="success" >成功按钮
                     <w-icon name="search" class="w-icon--right"></w-icon>
                 </w-button>
+            </div>
+            <div class="basic-btn basic-btn-demo">
+                <w-button loading>默认按钮</w-button>
+                <w-button type="primary" loading>主要按钮</w-button>
+                <w-button type="danger" loading>危险按钮</w-button>
+                <w-button type="warning" loading>警告按钮</w-button>
+                <w-button type="success" loading>成功按钮</w-button>
+            </div>
+        </div>
+        <div class="demo">
+            <div class="basic-input-demo">
+                <w-input></w-input>
+                <w-input disabled value="disabled"></w-input>
+                <w-input read-only value="read-only"></w-input>
             </div>
         </div>
     </div>
@@ -67,10 +81,11 @@
 <script>
   import WIcon from "./components/icon/src/icon";
   import WButton from "./components/button/src/button";
+  import WInput from "./components/input/src/input";
 
   export default {
     name: 'app',
-    components: {WIcon, WButton},
+    components: {WIcon, WButton,WInput},
   }
 </script>
 
@@ -79,7 +94,7 @@
         padding: 20px;
     }
 
-    .btn-demo {
+    .demo {
         display: flex;
         flex-direction: column;
         width: 800px;
@@ -87,6 +102,9 @@
         border: 1px solid #cccccc;
         box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
         padding: 20px;
+        &:not(:last-child){
+            margin-bottom: 20px;
+        }
     }
 
     .basic-btn-demo {
@@ -96,5 +114,10 @@
         &:not(:last-child) {
             margin-bottom: 10px;
         }
+    }
+    .basic-input-demo{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
     }
 </style>
