@@ -1,54 +1,60 @@
 <template>
-  <div id="app">
-    <div class="test-row-col"></div>
-    <w-row type="flex">
-        <w-col
-                span="24"
-                :phone="{span:24}"
-                :pad="{span:12}"
-                :narrow-pc="{span:8,offset:16}"
-        >
-            <div class="demo"></div>
-        </w-col>
-        <w-col
-                span="24"
-                :phone="{span:24}"
-                :pad="{span:12}"
-                :narrow-pc="{span:8,offset:16}"
-        ><div class="demo"></div></w-col>
-        <w-col
-                span="24"
-                :phone="{span:24}"
-                :pad="{span:12}"
-                :narrow-pc="{span:8,offset:16}"
-        ><div class="demo"></div></w-col>
-    </w-row>
-  </div>
+    <div id="app">
+        <!--<w-pager :total-page="totalPage" :current-page="currentPage" @onChange="handlePageChange"></w-pager>-->
+        <w-pagination :total="total" :current-page-number="currentPage"
+                      @pageNumberChange="handlePageChange"></w-pagination>
+        <div class="gutter"></div>
+        <div>{{selected}}</div>
+        <div class="gutter"></div>
+        <w-table
+                :columns="columns"
+                :data-source="dataSource"
+                :selectedItems.sync="selected"
+                :selected-items="selected"
+                :order-by="orderBy"
+        ></w-table>
+    </div>
 </template>
 
 <script>
-import WRow from '@/components/row.vue';
-import WCol from '@/components/col.vue';
 
-export default {
-  name: 'app',
-  components: {
-    WRow,
-    WCol
+  import WPager from "./components/pager/pager";
+  import WPagination from "./components/pagenation/pagination";
+  import WTable from "./components/table/table";
+
+  export default {
+    name: 'app',
+    components: {WTable, WPagination, WPager},
+    data() {
+      return {
+        currentPage: 1,
+        total: 500,
+        columns: [
+          {text: '姓名', field: 'name'},
+          {text: '分数', field: 'score'}
+        ],
+        dataSource: [
+          {id: 1, name: 'Json', score: 100},
+          {id: 2, name: 'Parser', score: 99},
+          {id: 3, name: 'James', score: 98},
+          {id: 4, name: 'Steve', score: 101}
+        ],
+        selected: [],
+        orderBy: {
+            name:'asc'
+        }
+      }
+    },
+    methods: {
+      handlePageChange(pageInfo) {
+        this.currentPage = pageInfo.page
+      }
+    }
   }
-}
 </script>
 
 <style lang="scss">
-  @import "assets/css/normalize.css";
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-  .demo{
-      border: 1px solid crimson;
-      background-color: #CCC;
-      height: 200px;
-  }
+    .gutter {
+        height: 20px;
+    }
 </style>
