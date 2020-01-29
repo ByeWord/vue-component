@@ -34,3 +34,20 @@
     </div>
 </template>
 ```
+2. 完成Vue的input组件的初步单元测试，学习到手动触发事件,以及使用Event的target使用方法
+```ecmascript 6
+it('should support input event', function () {
+      const wrapper = shallowMount(WInput);
+      let callback = sinon.fake();
+      wrapper.vm.$on('input',callback);
+      let event = new Event('input');
+      Object.defineProperty(event,'target',{
+        value:{value:'hi'},
+        enumerable:true
+      });
+      const inputElement = wrapper.vm.$el.querySelector('input');
+      inputElement.dispatchEvent(event);
+      expect(callback.called).to.equals(true);
+      expect(callback).to.have.been.calledWith('hi');
+    });
+```

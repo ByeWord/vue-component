@@ -1,7 +1,9 @@
 import {shallowMount} from '@vue/test-utils';
 import WInput from '../../src/components/input/src/input';
-import {expect} from 'chai';
+import chai,{expect} from 'chai';
 import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
+chai.use(sinonChai)
 
 
 describe('Input Component', () => {
@@ -56,9 +58,14 @@ describe('Input Component', () => {
       let callback = sinon.fake();
       wrapper.vm.$on('input',callback);
       let event = new Event('input');
+      Object.defineProperty(event,'target',{
+        value:{value:'hi'},
+        enumerable:true
+      });
       const inputElement = wrapper.vm.$el.querySelector('input');
       inputElement.dispatchEvent(event);
       expect(callback.called).to.equals(true);
+      expect(callback).to.have.been.calledWith('hi');
     });
     it('should support focus event', function () {
       const wrapper = shallowMount(WInput);
@@ -76,7 +83,7 @@ describe('Input Component', () => {
       let event = new Event('blur');
       const inputElement = wrapper.vm.$el.querySelector('input');
       inputElement.dispatchEvent(event);
-      expect(callback.called).to.equals(true);
+      expect(callback).to.have.been.calledWith(event);
     });
   })
 });
