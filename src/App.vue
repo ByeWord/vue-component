@@ -75,6 +75,9 @@
                 <w-input readonly v-model="inputValue" error="密码不能少于6位"></w-input>
             </div>
         </div>
+        <div class="demo" style="height: 600px;">
+            <w-datepicker></w-datepicker>
+        </div>
     </div>
 </template>
 
@@ -82,10 +85,11 @@
   import WIcon from "./components/icon/src/icon";
   import WButton from "./components/button/src/button";
   import WInput from "./components/input/src/input";
+  import WDatepicker from "./components/datepicker/src/datepicker";
 
   export default {
     name: 'app',
-    components: {WIcon, WButton,WInput},
+    components: {WDatepicker, WIcon, WButton,WInput},
     data(){
       return{
         inputValue:''
