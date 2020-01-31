@@ -1,7 +1,7 @@
 <template>
-    <div class="w-datapicker">
-        <w-input v-model="selectedDate"></w-input>
-        <div class="w-datapicker-panel">
+    <div class="w-datapicker" v-xxx>
+        <w-input v-model="selectedDate" @focus="openPanel"></w-input>
+        <div class="w-datapicker-panel" v-if="visible">
             <div class="w-datapicker-panel__header">
                 <span class="control" @click="prevYear"><<</span>
                 <span class="control" @click="prevMonth"><</span>
@@ -50,6 +50,27 @@
     components: {
       WInput
     },
+    directives:{
+        xxx:{
+          bind(el,binding,vnode){
+            let handler = (evt)=>{
+              if (el.contains(evt.target)){
+                vnode.context.openPanel()
+              }else {
+                vnode.context.closePanel()
+              }
+            };
+            document.addEventListener('click',handler);
+            vnode.handler = handler
+          },
+          inserted(el,binding,vnode){
+           console.log(vnode)
+          },
+          unbind(el,binding,vnode){
+            document.removeEventListener(vnode.handler)
+          }
+        }
+    },
     props: {
       weeks: {
         type: Array,
@@ -73,7 +94,8 @@
     data() {
       return {
         date: new Date(),
-        selectedDate: ''
+        selectedDate: '',
+        visible:true
       }
     },
     model: {
@@ -109,6 +131,12 @@
       }
     },
     methods: {
+      closePanel(){
+        this.visible = false;
+      },
+      openPanel(){
+        this.visible = true;
+      },
       testClick(evt) {
         if (evt.target.tagName === 'SPAN') {
           let index = evt.target.dataset.index.split('-');

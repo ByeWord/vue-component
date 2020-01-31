@@ -75,7 +75,7 @@
                 <w-input readonly v-model="inputValue" error="密码不能少于6位"></w-input>
             </div>
         </div>
-        <div class="demo" style="height: 600px;">
+        <div class="demo" style="height: 400px;">
             <w-datepicker></w-datepicker>
         </div>
     </div>
