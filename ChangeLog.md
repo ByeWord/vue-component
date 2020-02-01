@@ -95,3 +95,7 @@ function dates(date) {
         return dates;
       }
 ```
+#2020/01/31
+##重构分页器
+###1. 修改样式，使用mixin提取公共部分样式
+###2. 添加前后更多的功能，使用element-ui的算法

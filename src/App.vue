@@ -78,6 +78,9 @@
         <div class="demo" style="height: 400px;">
             <w-datepicker></w-datepicker>
         </div>
+        <div class="demo">
+            <w-pagination :total="1000" :current-change.sync="currentPage" :current-page="currentPage"></w-pagination>
+        </div>
     </div>
 </template>
 
@@ -86,13 +89,15 @@
   import WButton from "./components/button/src/button";
   import WInput from "./components/input/src/input";
   import WDatepicker from "./components/datepicker/src/datepicker";
+  import WPagination from "./components/pagination/src/pagination";
 
   export default {
     name: 'app',
-    components: {WDatepicker, WIcon, WButton,WInput},
+    components: {WPagination, WDatepicker, WIcon, WButton,WInput},
     data(){
       return{
-        inputValue:''
+        inputValue:'',
+        currentPage: 1
       }
     }
   }
