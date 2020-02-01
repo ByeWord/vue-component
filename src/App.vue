@@ -1,6 +1,41 @@
 <template>
     <div id="app">
         <div class="demo">
+            <h2 class="title">栅格</h2>
+            <w-row>
+                <w-col :span="8">
+                    <div style="height: 20px;background-color:orange;text-align: center;border: 1px solid black;">span8</div>
+                </w-col>
+                <w-col :span="8">
+                    <div style="height: 20px;background-color:lightgoldenrodyellow;text-align: center;border: 1px solid black;">span8</div>
+                </w-col>
+                <w-col :span="8">
+                    <div style="height: 20px;background-color:powderblue;text-align: center;border: 1px solid black;">span8</div>
+                </w-col>
+            </w-row>
+            <h3 class="title" style="margin: 12px auto;">offset</h3>
+            <w-row>
+                <w-col :span="8">
+                    <div style="height: 20px;background-color:powderblue;text-align: center;border: 1px solid black;">span8</div>
+                </w-col>
+                <w-col :span="8" :offset="8">
+                    <div style="height: 20px;background-color:orange;text-align: center;border: 1px solid black;">span8_offset8</div>
+                </w-col>
+            </w-row>
+            <h3 class="title" style="margin: 12px auto;">gutter</h3>
+            <w-row :gutter="20">
+                <w-col :span="8">
+                    <div style="height: 20px;background-color:orange;text-align: center;border: 1px solid black;">span8</div>
+                </w-col>
+                <w-col :span="8">
+                    <div style="height: 20px;background-color:lightgoldenrodyellow;text-align: center;border: 1px solid black;">span8</div>
+                </w-col>
+                <w-col :span="8">
+                    <div style="height: 20px;background-color:powderblue;text-align: center;border: 1px solid black;">span8</div>
+                </w-col>
+            </w-row>
+        </div>
+        <div class="demo">
             <h2 class="title">button</h2>
             <div class="basic-btn basic-btn-demo">
                 <w-button>默认按钮</w-button>
@@ -57,7 +92,7 @@
                 <w-button type="warning">警告按钮
                     <w-icon name="search" class="w-icon--right"></w-icon>
                 </w-button>
-                <w-button type="success" >成功按钮
+                <w-button type="success">成功按钮
                     <w-icon name="search" class="w-icon--right"></w-icon>
                 </w-button>
             </div>
@@ -108,21 +143,23 @@
   import WDatepicker from "./components/datepicker/src/datepicker";
   import WPagination from "./components/pagination/src/pagination";
   import WScrollView from "./components/scroll-view/src/scroll-view";
+  import WRow from './components/row/src/row';
+  import WCol from './components/col/src/col';
 
   export default {
     name: 'app',
-    components: {WPagination, WDatepicker, WIcon, WButton,WInput,WScrollView},
-    data(){
-      return{
-        inputValue:'',
+    components: {WPagination, WDatepicker, WIcon, WButton, WInput, WScrollView, WRow, WCol},
+    data() {
+      return {
+        inputValue: '',
         currentPage: 1
       }
     },
-    methods:{
-      showToast(direction){
+    methods: {
+      showToast(direction) {
         this.$toast({
-          message:'message',
-          position:direction
+          message: 'message',
+          position: direction
         })
       }
     }
@@ -142,7 +179,7 @@
         border: 1px solid #cccccc;
         box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
         padding: 20px;
-        &:not(:last-child){
+        &:not(:last-child) {
             margin-bottom: 20px;
         }
     }
@@ -155,19 +192,22 @@
             margin-bottom: 10px;
         }
     }
-    .basic-input-demo{
+
+    .basic-input-demo {
         display: flex;
         justify-content: space-around;
         align-items: center;
         flex-wrap: wrap;
     }
-    .title{
+
+    .title {
         text-align: center;
         padding: 0;
         margin: 0 0 16px 0;
     }
-    .toast-btn{
-        &:not(:last-child){
+
+    .toast-btn {
+        &:not(:last-child) {
             margin-bottom: 12px;
         }
     }

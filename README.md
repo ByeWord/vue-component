@@ -14,4 +14,4 @@
 ```
 3. icon图标来源[iconfont](https://www.iconfont.cn/manage/index?manage_type=myprojects&projectId=1622939)
 #组件概览
-![alt 目前的组件](./imageForChangeLog/组件.png)
+![alt 目前的组件](./imageForChangeLog/vue-component.png)
