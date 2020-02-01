@@ -1,6 +1,7 @@
 <template>
     <div id="app">
         <div class="demo">
+            <h2 class="title">button</h2>
             <div class="basic-btn basic-btn-demo">
                 <w-button>默认按钮</w-button>
                 <w-button type="primary">主要按钮</w-button>
@@ -69,6 +70,7 @@
             </div>
         </div>
         <div class="demo">
+            <h2 class="title">input</h2>
             <div class="basic-input-demo">
                 <w-input v-model="inputValue"></w-input>
                 <w-input disabled v-model="inputValue" error="密码不能少于6位"></w-input>
@@ -76,10 +78,25 @@
             </div>
         </div>
         <div class="demo" style="height: 400px;">
+            <h2 class="title">datepicker</h2>
             <w-datepicker></w-datepicker>
         </div>
         <div class="demo">
+            <h2 class="title">pagination</h2>
             <w-pagination :total="1000" :current-change.sync="currentPage" :current-page="currentPage"></w-pagination>
+        </div>
+        <div class="demo">
+            <h2 class="title">scroll-view</h2>
+            <w-scroll-view style="height: 400px;">
+                <p v-for="num in 50" :key="num">{{num}}</p>
+            </w-scroll-view>
+        </div>
+        <div class="demo">
+            <w-button class="toast-btn" @click="showToast('top')">Toast-Up</w-button>
+            <w-button class="toast-btn" type="primary" @click="showToast('left')">Toast-Left</w-button>
+            <w-button class="toast-btn" type="danger" @click="showToast('right')">Toast-Right</w-button>
+            <w-button class="toast-btn" type="warning" @click="showToast('bottom')">Toast-Bottom</w-button>
+            <w-button class="toast-btn" type="success" @click="showToast('middle')">Toast-Middle</w-button>
         </div>
     </div>
 </template>
@@ -90,14 +107,23 @@
   import WInput from "./components/input/src/input";
   import WDatepicker from "./components/datepicker/src/datepicker";
   import WPagination from "./components/pagination/src/pagination";
+  import WScrollView from "./components/scroll-view/src/scroll-view";
 
   export default {
     name: 'app',
-    components: {WPagination, WDatepicker, WIcon, WButton,WInput},
+    components: {WPagination, WDatepicker, WIcon, WButton,WInput,WScrollView},
     data(){
       return{
         inputValue:'',
         currentPage: 1
+      }
+    },
+    methods:{
+      showToast(direction){
+        this.$toast({
+          message:'message',
+          position:direction
+        })
       }
     }
   }
@@ -134,5 +160,15 @@
         justify-content: space-around;
         align-items: center;
         flex-wrap: wrap;
+    }
+    .title{
+        text-align: center;
+        padding: 0;
+        margin: 0 0 16px 0;
+    }
+    .toast-btn{
+        &:not(:last-child){
+            margin-bottom: 12px;
+        }
     }
 </style>

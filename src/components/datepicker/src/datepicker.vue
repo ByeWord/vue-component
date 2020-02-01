@@ -67,7 +67,7 @@
            console.log(vnode)
           },
           unbind(el,binding,vnode){
-            document.removeEventListener(vnode.handler)
+            document.removeEventListener('click',vnode.handler)
           }
         }
     },

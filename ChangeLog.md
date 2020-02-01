@@ -99,3 +99,11 @@ function dates(date) {
 ##重构分页器
 ###1. 修改样式，使用mixin提取公共部分样式
 ###2. 添加前后更多的功能，使用element-ui的算法
+
+#2020/02/01
+##整合toast和scroll-view
+* 待完善功能
+    - scroll-view添加懒加载
+    - scroll-view添加滚动监听回调
+    - toast添加多个toast同时打开
+    - 。。。。还有很多
