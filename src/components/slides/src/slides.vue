@@ -1,6 +1,12 @@
 <template>
     <div class="w-slides">
-        <div class="w-slides-window" ref="window">
+        <div
+                class="w-slides-window"
+                ref="window"
+                @touchstart="onTouchStart"
+                @touchmove="onTouchMove"
+                @touchend="onTouchEnd"
+        >
             <div class="w-slides-wrapper">
                 <slot></slot>
             </div>
@@ -49,17 +55,31 @@
         return this.$children.map(child => child.name);
       },
       selectedIndex() {
-        return this.names.indexOf(this.selected) || 0;
+        let index = this.names.indexOf(this.selected);
+        return index === -1 ? 0 : index;
       }
     },
     methods: {
+      onTouchStart(e) {
+        if (e.touches.length > 1) return;
+        this.pause();
+      },
+      onTouchMove(e) {
+        console.log('onTouchMove')
+      },
+      onTouchEnd(e) {
+        let endTouch = e.changedTouches[0];
+        console.log(endTouch)
+      },
       updateChildren() {
         let selected = this.getSelected();
         this.$children.forEach(vm => {
           // Vue的异步更新，导致dom操作reverse类更新不及时
           let reverse = this.selectedIndex <= this.lastSelectedIndex;
-          if (this.lastSelectedIndex === this.$children.length - 1) {
-            reverse = false;
+          if (this.timeId) {
+            if (this.lastSelectedIndex === this.$children.length - 1) {
+              reverse = false;
+            }
           }
           vm.reverse = reverse;
           this.$nextTick(() => {
