@@ -7,7 +7,10 @@
         </div>
         <ul class="w-slides-dots">
             <li class="w-slides-dot" :class="{active:selectedIndex===(n-1)}" v-for="n in dotsCount" :key="n"
-                @click="switchTo(n-1)">
+                @click="switchTo(n-1)"
+                @mouseenter="pause"
+                @mouseleave="playAutomatically"
+            >
                 {{n}}
             </li>
         </ul>
@@ -29,7 +32,8 @@
     data() {
       return {
         dotsCount: 0,
-        lastSelectedIndex: undefined
+        lastSelectedIndex: undefined,
+        timeId: null
       }
     },
     mounted() {
@@ -53,8 +57,12 @@
         let selected = this.getSelected();
         this.$children.forEach(vm => {
           // Vue的异步更新，导致dom操作reverse类更新不及时
-          vm.reverse = this.selectedIndex <= this.lastSelectedIndex;
-          this.$nextTick(()=>{
+          let reverse = this.selectedIndex <= this.lastSelectedIndex;
+          if (this.lastSelectedIndex === this.$children.length - 1) {
+            reverse = false;
+          }
+          vm.reverse = reverse;
+          this.$nextTick(() => {
             vm.selected = selected;
           });
         });
@@ -63,14 +71,23 @@
         let first = this.$children[0];
         return this.selected || first.name;
       },
+      onMouseLeave() {
+        if (!this.timeId) { //为了防止timeId被重复播放
+          this.playAutomatically();
+        }
+      },
       playAutomatically() {
-        let index = this.names.indexOf(this.getSelected());
         let play = () => {
+          let index = this.names.indexOf(this.getSelected());
           index = (++index) % this.names.length; // 正向
           this.switchTo(index);
-          setTimeout(play, 5000)
+          this.timeId = setTimeout(play, 5000)
         };
         play();
+      },
+      pause() {
+        this.timeId && window.clearTimeout(this.timeId);
+        this.timeId = null;
       },
       switchTo(index) {
         this.lastSelectedIndex = this.selectedIndex;
