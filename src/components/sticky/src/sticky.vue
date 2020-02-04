@@ -1,6 +1,6 @@
 <template>
     <div class="w-sticky-wrapper" ref="wrapper" :style="{height}">
-        <div class="w-sticky" :class="{sticky}" :style="{left,width}">
+        <div class="w-sticky" ref="stickyEl" :class="{sticky}" :style="{left,width,top}">
             <slot></slot>
         </div>
     </div>
@@ -20,7 +20,8 @@
         sticky: false,
         left: undefined,
         height: undefined,
-        width: undefined
+        width: undefined,
+        top:undefined
       }
     },
     mounted() {
@@ -38,25 +39,35 @@
       /**
        * 解决思路同上
        */
-      let top = this.top();
-      window.addEventListener('scroll', () => {
+      let top = this.offsetTop();
+      this.scrollHandler = () => {
         if (window.scrollY > top) {
           let {left, width, height} = this.$refs.wrapper.getBoundingClientRect();
           this.left = left + 'px';
           this.height = height + 'px';
           this.width = width + 'px';
+          this.top = this.distance + 'px';
           this.sticky = true;
         } else {
+          this.left = undefined;
+          this.height = undefined;
+          this.width = undefined;
+          this.top = undefined;
           this.sticky = false;
         }
-      });
+      };
+      window.addEventListener('scroll', this.scrollHandler);
     },
     methods: {
-      top() {
+      offsetTop() {
         // top的值有正负
         let {top} = this.$refs.wrapper.getBoundingClientRect();
         return top + window.scrollY;
       }
+    },
+    //解除热更新副作用
+    beforeDestroy(){
+        window.removeEventListener('scroll',this.scrollHandler)
     }
   }
 </script>
@@ -65,7 +76,6 @@
     .w-sticky {
         &.sticky {
             position: fixed;
-            top: 0;
         }
     }
 </style>

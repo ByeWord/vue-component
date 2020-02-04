@@ -150,7 +150,7 @@
             </w-scroll-view>
         </div>
         <div class="demo">
-            <w-button class="toast-btn" @click="showToast('top')">Toast-Up</w-button>
+            <w-button class="toast-btn" @click="showToast('offsetTop')">Toast-Up</w-button>
             <w-button class="toast-btn" type="primary" @click="showToast('left')">Toast-Left</w-button>
             <w-button class="toast-btn" type="danger" @click="showToast('right')">Toast-Right</w-button>
             <w-button class="toast-btn" type="warning" @click="showToast('bottom')">Toast-Bottom</w-button>

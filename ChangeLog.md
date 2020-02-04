@@ -109,3 +109,13 @@ function dates(date) {
     - 。。。。还有很多
 #2020/02/03
 ##构建可以自动播放的无缝轮播
+
+#2020/02/04
+##构建并完善吸顶组件
+* 吸顶不及时处理
+* 组件 position:fixed定位后，页面刚好承载内容导致滚动条消失
+    - 解决思路：html结构 wrapper->sticky;sticky变成fixed后设置wrapper的高度为原先的高度
+* 如果加载的是图片资源，获取到的wrapper高度不准确
+    - 监听sticky->true变化时再获取高度
+* 宽度和位置由于position：fixed后变得不准确
+    - 解决思路同上

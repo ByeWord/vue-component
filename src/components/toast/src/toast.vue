@@ -40,9 +40,9 @@
       },
       position: {
         type: String,
-        default: 'top',
+        default: 'offsetTop',
         validator(value) {
-          return ['top', 'bottom', 'left', 'right', 'middle'].indexOf(value) >= 0
+          return ['offsetTop', 'bottom', 'left', 'right', 'middle'].indexOf(value) >= 0
         }
       }
     },
