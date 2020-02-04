@@ -169,6 +169,24 @@
                 </w-slide-item>
             </w-slides>
         </div>
+        <div class="demo">
+            <h2 class="title">divider</h2>
+            <div>
+                <span>头上一片晴天，心中一个想念</span>
+                <w-divider content-position="left">少年包青天</w-divider>
+                <span>饿了别叫妈, 叫饿了么</span>
+                <w-divider><w-icon name="phone"></w-icon></w-divider>
+                <span>为了无法计算的价值</span>
+                <w-divider content-position="right">阿里云</w-divider>
+            </div>
+            <div>
+                <span>雨纷纷</span>
+                <w-divider direction="vertical"></w-divider>
+                <span>旧故里</span>
+                <w-divider direction="vertical"></w-divider>
+                <span>草木深</span>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -184,10 +202,24 @@
   import WSlides from "./components/slides/src/slides";
   import WSlideItem from "./components/slide-item/src/slide-item";
   import WSticky from "./components/sticky/src/sticky";
+  import WDivider from "./components/divider/src/divider";
 
   export default {
     name: 'app',
-    components: {WSticky, WSlideItem, WSlides, WPagination, WDatepicker, WIcon, WButton, WInput, WScrollView, WRow, WCol},
+    components: {
+      WDivider,
+      WSticky,
+      WSlideItem,
+      WSlides,
+      WPagination,
+      WDatepicker,
+      WIcon,
+      WButton,
+      WInput,
+      WScrollView,
+      WRow,
+      WCol
+    },
     data() {
       return {
         inputValue: '',
@@ -263,7 +295,8 @@
         justify-content: center;
         border: 1px solid crimson;
     }
-    .sticky-content{
+
+    .sticky-content {
         border: 1px solid crimson;
     }
 </style>

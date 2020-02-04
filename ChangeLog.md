@@ -119,3 +119,4 @@ function dates(date) {
     - 监听sticky->true变化时再获取高度
 * 宽度和位置由于position：fixed后变得不准确
     - 解决思路同上
+##构建divider组件完成
