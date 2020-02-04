@@ -183,7 +183,7 @@
             top: 0;
             margin-left: -4px;
             padding: 4px 0;
-            transition: transform .05s ease-in-out;
+            transition: all .05s ease-in-out;
             box-sizing: border-box;
             &-inner {
                 height: 100%;

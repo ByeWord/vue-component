@@ -1,5 +1,12 @@
 <template>
     <div id="app">
+        <w-sticky distance="100" style="margin-bottom: 20px">
+            <div class="sticky-content" style="background-color:#fff;">
+                <div class="demo" style="height: 250px; background-color:#fff;">
+                    <h2 class="title">sticky</h2>
+                </div>
+            </div>
+        </w-sticky>
         <div class="demo">
             <h2 class="title">栅格</h2>
             <w-row>
@@ -176,10 +183,11 @@
   import WCol from './components/col/src/col';
   import WSlides from "./components/slides/src/slides";
   import WSlideItem from "./components/slide-item/src/slide-item";
+  import WSticky from "./components/sticky/src/sticky";
 
   export default {
     name: 'app',
-    components: {WSlideItem, WSlides, WPagination, WDatepicker, WIcon, WButton, WInput, WScrollView, WRow, WCol},
+    components: {WSticky, WSlideItem, WSlides, WPagination, WDatepicker, WIcon, WButton, WInput, WScrollView, WRow, WCol},
     data() {
       return {
         inputValue: '',
@@ -253,6 +261,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        border: 1px solid crimson;
+    }
+    .sticky-content{
         border: 1px solid crimson;
     }
 </style>

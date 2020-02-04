@@ -107,3 +107,5 @@ function dates(date) {
     - scroll-view添加滚动监听回调
     - toast添加多个toast同时打开
     - 。。。。还有很多
+#2020/02/03
+##构建可以自动播放的无缝轮播

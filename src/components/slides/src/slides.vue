@@ -15,7 +15,7 @@
             <li class="w-slides-dot" :class="{active:selectedIndex===(n-1)}" v-for="n in dotsCount" :key="n"
                 @click="switchTo(n-1)"
                 @mouseenter="pause"
-                @mouseleave="playAutomatically"
+                @mouseleave="onMouseLeave"
             >
                 {{n}}
             </li>
@@ -33,7 +33,7 @@
       autoPlay: {
         type: Boolean,
         default: true
-      }
+      },
     },
     data() {
       return {
@@ -44,6 +44,7 @@
     },
     mounted() {
       this.updateChildren();
+      console.log(this.$children)
       this.autoPlay && this.playAutomatically();
       this.dotsCount = this.$children.length;
     },
@@ -71,8 +72,8 @@
         let endTouch = e.changedTouches[0];
         console.log(endTouch)
       },
-      updateChildren() {
-        let selected = this.getSelected();
+      updateChildren() { // 核心更新方法
+        let selected = this.getSelected(); // 获取更新后的selected
         this.$children.forEach(vm => {
           // Vue的异步更新，导致dom操作reverse类更新不及时
           let reverse = this.selectedIndex <= this.lastSelectedIndex;
