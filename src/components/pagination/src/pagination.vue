@@ -1,6 +1,6 @@
 <!--v-if="pagers.length === 1 && hideOnSinglePage"-->
 <template>
-    <div class="w-pagination">
+    <div class="w-pagination" v-if="pagers.length === 1 && hideOnSinglePage">
         <!--<span class="w-pagination__total">共{{total}}条</span>-->
         <!--<span class="w-pagination__sizes">100条/页</span>-->
         <button class="btn-prev" :class="{disabled: currentPage === 1}" @click="prevClick">

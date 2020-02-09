@@ -40,6 +40,9 @@
             </tbody>
         </table>
         <w-pagination :total="dataSource.length"></w-pagination>
+        <div class="w-table-loading" v-if="loading">
+            <w-icon name="loading" class="loading"></w-icon>
+        </div>
     </div>
 </template>
 
@@ -77,6 +80,10 @@
       selectedItems: {
         type: Array,
         default: () => []
+      },
+      loading:{
+        type:Boolean,
+        default:false
       }
     },
     data(){
@@ -160,6 +167,7 @@
 
 <style lang="scss" scoped>
     .w-table-wrapper {
+        position: relative;
         .w-table {
             border-collapse: collapse;
             border-spacing: 0;
@@ -212,11 +220,35 @@
                     }
                 }
             }
+            &-loading{
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                right: 0;
+                background-color: rgba(0,0,0,0.2);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                .loading{
+                    height: 30px;
+                    width: 30px;
+                    animation: spin 3s linear infinite;
+                }
+            }
 
             th, td {
                 text-align: left;
                 padding: 8px;
             }
+        }
+    }
+    @keyframes spin {
+        from{
+            transform: rotate(0deg);
+        }
+        to{
+            transform: rotate(360deg);
         }
     }
 </style>
