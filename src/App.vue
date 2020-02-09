@@ -190,7 +190,10 @@
             </div>
         </w-sticky>
         <div class="demo">
-            <w-table :data-source="dataSource" :columns="columns"></w-table>
+            <div>
+                {{selectedList}}
+            </div>
+            <w-table :data-source="dataSource" :columns="columns" :selected-items.sync="selectedList"></w-table>
         </div>
     </div>
 </template>
@@ -233,15 +236,18 @@
         currentPage: 1,
         selected: '1',
         columns: [
-          {text:'姓名',field:'name'},
-          {text:'分数',field:'score'},
+          {text: '姓名', field: 'name'},
+          {text: '分数', field: 'score',sortable:true},
         ],
         dataSource: [
-          {id:1,name:'apple',score:99},
-          {id:2,name:'banana',score:100},
-          {id:3,name:'orange',score:98},
-          {id:4,name:'juice',score:96},
-        ]
+          {id: 1, name: 'apple', score: 99},
+          {id: 2, name: 'banana', score: 100},
+          {id: 3, name: 'orange', score: 98},
+          {id: 4, name: 'juice', score: 96},
+          {id: 5, name: 'bubble', score: 89},
+          {id: 6, name: 'papa', score: 100},
+        ],
+        selectedList: []
       }
     },
     methods: {
@@ -250,6 +256,24 @@
           message: 'message',
           position: direction
         })
+      },
+      x(obj) {
+        let filterRes = this.selectedList.filter(item => item.id === obj.item.id);
+        if (obj.selected) {
+          if (filterRes.length === 0) {
+            this.selectedList.push(obj.item)
+          }
+        } else {
+          if (filterRes.length > 0) {
+            let index = this.selectedList.indexOf(obj.item);
+            this.selectedList.splice(index, 1);
+          }
+        }
+      },
+      findAndSplice(data, ...fns) {
+        fns.reduce((prev, cur) => {
+          return cur(prev(data));
+        }, fns[0])
       }
     },
     created() {
