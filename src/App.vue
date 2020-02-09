@@ -240,12 +240,12 @@
           {text: '分数', field: 'score',sortable:true},
         ],
         dataSource: [
-          {id: 1, name: 'apple', score: 99},
-          {id: 2, name: 'banana', score: 100},
-          {id: 3, name: 'orange', score: 98},
-          {id: 4, name: 'juice', score: 96},
-          {id: 5, name: 'bubble', score: 89},
-          {id: 6, name: 'papa', score: 100},
+          // {id: 1, name: 'apple', score: 99},
+          // {id: 2, name: 'banana', score: 100},
+          // {id: 3, name: 'orange', score: 98},
+          // {id: 4, name: 'juice', score: 96},
+          // {id: 5, name: 'bubble', score: 89},
+          // {id: 6, name: 'papa', score: 100},
         ],
         selectedList: []
       }

@@ -4,7 +4,7 @@
             <thead>
             <tr>
                 <th v-if="showIndex">#</th>
-                <th>
+                <th v-if="selectable">
                     <input type="checkbox"
                            @change="onChangeAllItems"
                            ref="allCheckBox"
@@ -24,10 +24,10 @@
                 </th>
             </tr>
             </thead>
-            <tbody>
+            <tbody v-if="dataSource.length > 0">
             <tr v-for="(data,index) in dataSource" :key="data.id">
                 <td v-if="showIndex">{{index+1}}</td>
-                <td>
+                <td v-if="selectable">
                     <input type="checkbox"
                            :checked="isChecked(data)"
                            @change="handleSelect(data,index,$event)"
@@ -37,6 +37,11 @@
                     <td :key="column.field">{{data[column.field]}}</td>
                 </template>
             </tr>
+            </tbody>
+            <tbody v-else>
+               <tr>
+                   <td class="without-data" :colspan="colspan">{{tipsWithNoData}}</td>
+               </tr>
             </tbody>
         </table>
         <w-pagination :total="dataSource.length"></w-pagination>
@@ -84,6 +89,14 @@
       loading:{
         type:Boolean,
         default:false
+      },
+      tipsWithNoData:{
+        type:String,
+        default:'没有数据可展示'
+      },
+      selectable:{
+        type:Boolean,
+        default:true
       }
     },
     data(){
@@ -95,6 +108,12 @@
       }
     },
     computed: {
+      colspan(){
+        let count = 0;
+        if (this.showIndex)count++;
+        if (this.selectable)count++;
+        return this.columns.length + count;
+      },
       areAllItemsSelected() {
         const a = this.dataSource.map(item => item.id).sort();
         const b = this.selectedItems.map(item => item.id).sort();
@@ -235,6 +254,10 @@
                     width: 30px;
                     animation: spin 3s linear infinite;
                 }
+            }
+            .without-data{
+                padding: 20px !important;
+                text-align: center !important;
             }
 
             th, td {
