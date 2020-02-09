@@ -8,9 +8,14 @@ import WPagination from './components/pagination';
 import WRow from './components/row';
 import WScrollView from './components/scroll-view';
 import WToast from './components/toast';
+import WDivider from './components/divider';
+import WSliders from './components/slides';
+import WSliderItem from './components/slide-item';
+import WSticky from './components/sticky';
 
 const components = [
-  WButton, WButtonGroup, WCol, WDatepicker, WIcon, WInput, WPagination, WRow, WScrollView, WToast
+  WButton, WButtonGroup, WCol, WDatepicker, WIcon, WInput, WPagination, WRow, WScrollView, WToast,
+  WDivider, WSliders, WSliderItem, WSticky
 ];
 
 const install = function (Vue) {
@@ -19,6 +24,6 @@ const install = function (Vue) {
   })
 };
 
-const WUI = {install, WButton, WButtonGroup, WCol, WDatepicker, WIcon, WInput, WPagination, WRow, WScrollView, WToast};
+const WUI = {install, WButton, WButtonGroup, WCol, WDatepicker, WIcon, WInput, WPagination, WRow, WScrollView, WToast,WDivider,WSliders,WSliderItem,WSticky};
 
 export default WUI;

@@ -39,9 +39,11 @@
       /**
        * 解决思路同上
        */
-      let top = this.offsetTop();
       this.scrollHandler = () => {
-        if (window.scrollY > top) {
+        let top = this.offsetTop();
+        console.log(top)
+        console.log(Number(this.distance))
+        if (top < Number(this.distance)) {
           let {left, width, height} = this.$refs.wrapper.getBoundingClientRect();
           this.left = left + 'px';
           this.height = height + 'px';
@@ -49,6 +51,7 @@
           this.top = this.distance + 'px';
           this.sticky = true;
         } else {
+          console.log('不吸顶了')
           this.left = undefined;
           this.height = undefined;
           this.width = undefined;
@@ -62,7 +65,7 @@
       offsetTop() {
         // top的值有正负
         let {top} = this.$refs.wrapper.getBoundingClientRect();
-        return top + window.scrollY;
+        return top;
       }
     },
     //解除热更新副作用

@@ -1,12 +1,5 @@
 <template>
     <div id="app">
-        <w-sticky distance="100" style="margin-bottom: 20px">
-            <div class="sticky-content" style="background-color:#fff;">
-                <div class="demo" style="height: 250px; background-color:#fff;">
-                    <h2 class="title">sticky</h2>
-                </div>
-            </div>
-        </w-sticky>
         <div class="demo">
             <h2 class="title">栅格</h2>
             <w-row>
@@ -175,7 +168,9 @@
                 <span>头上一片晴天，心中一个想念</span>
                 <w-divider content-position="left">少年包青天</w-divider>
                 <span>饿了别叫妈, 叫饿了么</span>
-                <w-divider><w-icon name="phone"></w-icon></w-divider>
+                <w-divider>
+                    <w-icon name="phone"></w-icon>
+                </w-divider>
                 <span>为了无法计算的价值</span>
                 <w-divider content-position="right">阿里云</w-divider>
             </div>
@@ -186,6 +181,16 @@
                 <w-divider direction="vertical"></w-divider>
                 <span>草木深</span>
             </div>
+        </div>
+        <w-sticky distance="10" style="margin-bottom: 20px">
+            <div class="sticky-content" style="background-color:#fff;">
+                <div class="demo" style="height: 250px; background-color:#fff;">
+                    <h2 class="title">sticky</h2>
+                </div>
+            </div>
+        </w-sticky>
+        <div class="demo">
+            <w-table :data-source="dataSource" :columns="columns"></w-table>
         </div>
     </div>
 </template>
@@ -203,6 +208,7 @@
   import WSlideItem from "./components/slide-item/src/slide-item";
   import WSticky from "./components/sticky/src/sticky";
   import WDivider from "./components/divider/src/divider";
+  import WTable from "./components/table/src/table";
 
   export default {
     name: 'app',
@@ -218,13 +224,24 @@
       WInput,
       WScrollView,
       WRow,
-      WCol
+      WCol,
+      WTable
     },
     data() {
       return {
         inputValue: '',
         currentPage: 1,
-        selected: '1'
+        selected: '1',
+        columns: [
+          {text:'姓名',field:'name'},
+          {text:'分数',field:'score'},
+        ],
+        dataSource: [
+          {id:1,name:'apple',score:99},
+          {id:2,name:'banana',score:100},
+          {id:3,name:'orange',score:98},
+          {id:4,name:'juice',score:96},
+        ]
       }
     },
     methods: {
