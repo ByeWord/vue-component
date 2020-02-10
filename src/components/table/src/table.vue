@@ -4,8 +4,9 @@
             <table class="w-table" :class="{bordered,compact,striped}" ref="table">
                 <thead>
                 <tr>
+                    <th style="width: 50px"></th>
                     <th style="width: 50px" v-if="showIndex">#</th>
-                    <th style="width: 50px" v-if="selectable">
+                    <th style="width: 50px" v-if="selectable" class="w-table-center">
                         <input type="checkbox"
                                @change="onChangeAllItems"
                                ref="allCheckBox"
@@ -28,18 +29,26 @@
                 </tr>
                 </thead>
                 <tbody v-if="dataSource.length > 0">
-                <tr v-for="(data,index) in dataSource" :key="data.id">
-                    <td style="width: 50px" v-if="showIndex">{{index+1}}</td>
-                    <td style="width: 50px" v-if="selectable">
-                        <input type="checkbox"
-                               :checked="isChecked(data)"
-                               @change="handleSelect(data,index,$event)"
-                        />
-                    </td>
-                    <template v-for="column in columns">
-                        <td :key="column.field" :style="{width:column.width+'px'}">{{data[column.field]}}</td>
-                    </template>
-                </tr>
+                <template v-for="(data,index) in dataSource">
+                    <tr :key="data.id">
+                        <th style="width: 50px" class="w-table-center">
+                            <w-icon name="next" @click="toggleExpand(data.id)"></w-icon>
+                        </th>
+                        <td style="width: 50px" v-if="showIndex">{{index+1}}</td>
+                        <td style="width: 50px" v-if="selectable" class="w-table-center">
+                            <input type="checkbox"
+                                   :checked="isChecked(data)"
+                                   @change="handleSelect(data,index,$event)"
+                            />
+                        </td>
+                        <template v-for="column in columns">
+                            <td :key="column.field" :style="{width:column.width+'px'}">{{data[column.field]}}</td>
+                        </template>
+                    </tr>
+                    <tr v-if="inExpandIds(data.id)">
+                        <td colspan="100">{{data.description || 'xxxx'}}</td>
+                    </tr>
+                </template>
                 </tbody>
                 <tbody v-else>
                 <tr>
@@ -49,7 +58,7 @@
             </table>
         </div>
         <!--<div :style="{height:height+'px',overflow: 'auto'}">-->
-           <!---->
+        <!---->
         <!--</div>-->
         <w-pagination :total="dataSource.length"></w-pagination>
         <div class="w-table-loading" v-if="loading">
@@ -115,7 +124,8 @@
           field: undefined,
           type: undefined
         },
-        copyTable:undefined
+        copyTable: undefined,
+        expandIds:[]
       }
     },
     computed: {
@@ -151,6 +161,16 @@
       }
     },
     methods: {
+      inExpandIds(id){
+        return this.expandIds.indexOf(id)>=0;
+      },
+      toggleExpand(id){
+        if (!this.inExpandIds(id)){
+          this.expandIds.push(id);
+        } else {
+          this.expandIds.splice(this.expandIds.indexOf(id),1);
+        }
+      },
       handleSelect(item, index, evt) {
         let selected = evt.target.checked;
         let copy = JSON.parse(JSON.stringify(this.selectedItems));
@@ -218,7 +238,7 @@
       // this.onWindowResize = ()=>this.updateHeaderWidth();
       // window.addEventListener('resize',this.onWindowResize)
     },
-    beforeDestroy(){
+    beforeDestroy() {
       // window.removeEventListener('resize',this.onWindowResize);
       this.copyTable.remove();
     }
@@ -233,6 +253,9 @@
             border-collapse: collapse;
             border-spacing: 0;
             width: 100%;
+            .w-table-center{
+                text-align: center !important;
+            }
             &.bordered {
                 border: 1px solid #999999;
                 th, td {
