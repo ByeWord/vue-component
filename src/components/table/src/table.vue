@@ -1,18 +1,18 @@
 <template>
     <div class="w-table-wrapper" ref="wrapper">
-        <w-scroll-view :style="{height:height+'px'}">
+        <div :style="{height:height+'px',overflow:'auto'}" ref='scrollView'>
             <table class="w-table" :class="{bordered,compact,striped}" ref="table">
                 <thead>
                 <tr>
-                    <th v-if="showIndex">#</th>
-                    <th v-if="selectable">
+                    <th style="width: 50px" v-if="showIndex">#</th>
+                    <th style="width: 50px" v-if="selectable">
                         <input type="checkbox"
                                @change="onChangeAllItems"
                                ref="allCheckBox"
                                :checked="areAllItemsSelected"
                         />
                     </th>
-                    <th v-for="column in columns" :key="column.field">
+                    <th v-for="column in columns" :key="column.field" :style="{width:column.width+'px'}">
                         <div class="w-table-header">
                             <span>{{column.text}}</span>
                             <div class="w-table-sorter" v-if="column.sortable">
@@ -29,15 +29,15 @@
                 </thead>
                 <tbody v-if="dataSource.length > 0">
                 <tr v-for="(data,index) in dataSource" :key="data.id">
-                    <td v-if="showIndex">{{index+1}}</td>
-                    <td v-if="selectable">
+                    <td style="width: 50px" v-if="showIndex">{{index+1}}</td>
+                    <td style="width: 50px" v-if="selectable">
                         <input type="checkbox"
                                :checked="isChecked(data)"
                                @change="handleSelect(data,index,$event)"
                         />
                     </td>
                     <template v-for="column in columns">
-                        <td :key="column.field">{{data[column.field]}}</td>
+                        <td :key="column.field" :style="{width:column.width+'px'}">{{data[column.field]}}</td>
                     </template>
                 </tr>
                 </tbody>
@@ -47,7 +47,7 @@
                 </tr>
                 </tbody>
             </table>
-        </w-scroll-view>
+        </div>
         <!--<div :style="{height:height+'px',overflow: 'auto'}">-->
            <!---->
         <!--</div>-->
@@ -191,36 +191,36 @@
         let copyCol = JSON.parse(JSON.stringify((this.columns.filter(i => i.field === field)[0])));
         this.$emit('on-sort-change', {column: copyCol, field, order: 'desc'})
       },
-      updateHeaderWidth(){
-        let tableHeaderCopy = null;
-        let tableHeader = Array.from(this.$refs.table.children).filter(item => item.tagName.toLowerCase() === 'thead')[0];
-        this.copyTable.classList.add('w-table-copy');
-        Array.from(this.copyTable.children).map(item => {
-          if (item.tagName.toLowerCase() !== 'thead') {
-            item.remove()
-          } else {
-            tableHeaderCopy = item;
-          }
-        });
-        Array.from(tableHeader.children[0].children).map((th, index) => {
-          let {width} = th.getBoundingClientRect();
-          tableHeaderCopy && (tableHeaderCopy.children[0].children[index].style.width = width + 'px');
-        });
-      }
+      // updateHeaderWidth(){
+      //   let tableHeaderCopy = null;
+      //   this.copyTable.classList.add('w-table-copy');
+      //   Array.from(this.copyTable.children).map(item => {
+      //     if (item.tagName.toLowerCase() !== 'thead') {
+      //       item.remove()
+      //     } else {
+      //       tableHeaderCopy = item;
+      //     }
+      //   });
+      // }
     },
     mounted() {
       // 固定表头
-      // 方式一：使用clone-node
-      let copyTable = this.$refs.table.cloneNode(true);
+      let copyTable = this.$refs.table.cloneNode(false);
       this.copyTable = copyTable;
+      this.copyTable.classList.add('w-table-copy');
       let wrapper = this.$refs.wrapper;
+      let tHead = this.$refs.table.children[0];
+      let {height} = tHead.getBoundingClientRect();
+      this.$refs.scrollView.style.marginTop = height + 'px';
+      copyTable.appendChild(tHead);
       wrapper.appendChild(copyTable);
-      this.updateHeaderWidth();
-      this.onWindowResize = ()=>this.updateHeaderWidth();
-      window.addEventListener('resize',this.onWindowResize)
+      // this.updateHeaderWidth();
+      // this.onWindowResize = ()=>this.updateHeaderWidth();
+      // window.addEventListener('resize',this.onWindowResize)
     },
     beforeDestroy(){
-      window.removeEventListener('resize',this.onWindowResize)
+      // window.removeEventListener('resize',this.onWindowResize);
+      this.copyTable.remove();
     }
   }
 </script>

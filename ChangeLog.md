@@ -141,10 +141,12 @@ function dates(date) {
 ##开发table的固定表头
 1. 利用自己开发的scroll-view美化表头每列的宽度，结果还是对不齐
 ###思路
-1.利用cloneNode这个api复制一份table然后只要它的thead,将thead改成绝对定位，原来的table使用div包裹并把
+1.利用cloneNode这个api[深拷贝]复制一份table然后只要它的thead,将thead改成绝对定位，原来的table使用div包裹并把
 height设置在该div上<br>
 1.1 缺点：cloneNode这个api无法复制原来元素的宽度和绑定的事件<br>
 1.2 固定的表头会遮盖滚动条很不完美<br>
 1.3 不具备大数据量优化
 
-2.
+2. 利用cloneNode这个api[浅拷贝]复制一份table<br>
+2.1 将原来table的thead通过appendChildren移动到copyTable上这样原来绑定的事件依旧存在<br>
+2.2 将

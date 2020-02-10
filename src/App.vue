@@ -233,7 +233,7 @@
         currentPage: 1,
         selected: '1',
         columns: [
-          {text: '姓名', field: 'name'},
+          {text: '姓名', field: 'name',width:100},
           {text: '分数', field: 'score',sortable:true},
         ],
         dataSource: [
