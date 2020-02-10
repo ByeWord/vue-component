@@ -182,6 +182,9 @@
                 <span>草木深</span>
             </div>
         </div>
+        <div class="demo demo-table">
+            <w-table :height="300" :data-source="dataSource" :columns="columns" :selected-items.sync="selectedList"></w-table>
+        </div>
         <w-sticky distance="10" style="margin-bottom: 20px">
             <div class="sticky-content" style="background-color:#fff;">
                 <div class="demo" style="height: 250px; background-color:#fff;">
@@ -189,12 +192,6 @@
                 </div>
             </div>
         </w-sticky>
-        <div class="demo">
-            <div>
-                {{selectedList}}
-            </div>
-            <w-table :data-source="dataSource" :columns="columns" :selected-items.sync="selectedList"></w-table>
-        </div>
     </div>
 </template>
 
@@ -240,12 +237,24 @@
           {text: '分数', field: 'score',sortable:true},
         ],
         dataSource: [
-          // {id: 1, name: 'apple', score: 99},
-          // {id: 2, name: 'banana', score: 100},
-          // {id: 3, name: 'orange', score: 98},
-          // {id: 4, name: 'juice', score: 96},
-          // {id: 5, name: 'bubble', score: 89},
-          // {id: 6, name: 'papa', score: 100},
+          {id: 1, name: 'apple', score: 99},
+          {id: 2, name: 'banana', score: 100},
+          {id: 3, name: 'orange', score: 98},
+          {id: 4, name: 'juice', score: 96},
+          {id: 5, name: 'bubble', score: 89},
+          {id: 6, name: 'papa', score: 100},
+          {id: 7, name: 'apple', score: 99},
+          {id: 8, name: 'banana', score: 100},
+          {id: 9, name: 'orange', score: 98},
+          {id: 10, name: 'juice', score: 96},
+          {id: 11, name: 'bubble', score: 89},
+          {id: 12, name: 'papa', score: 100},
+          {id: 13, name: 'apple', score: 99},
+          {id: 14, name: 'banana', score: 100},
+          {id: 15, name: 'orange', score: 98},
+          {id: 16, name: 'juice', score: 96},
+          {id: 17, name: 'bubble', score: 89},
+          {id: 18, name: 'papa', score: 100},
         ],
         selectedList: []
       }
@@ -297,6 +306,9 @@
         padding: 20px;
         &:not(:last-child) {
             margin-bottom: 20px;
+        }
+        &-table{
+            height: 400px;
         }
     }
 
