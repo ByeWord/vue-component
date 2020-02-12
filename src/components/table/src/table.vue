@@ -116,6 +116,9 @@
       },
       height: {
         type: Number | String
+      },
+      expandable:{
+        type:Boolean
       }
     },
     data() {

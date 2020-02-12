@@ -185,6 +185,15 @@
         <div class="demo demo-table">
             <w-table :height="300" :data-source="dataSource" :columns="columns" :selected-items.sync="selectedList"></w-table>
         </div>
+
+        <div class="demo">
+            <temp-table :data="dataSource" :columns="columns" :height="200">
+                <template v-slot:name="{row,column,index}" >
+                    <button>{{row.name}}</button>
+                </template>
+            </temp-table>
+        </div>
+
         <w-sticky distance="10" style="margin-bottom: 20px">
             <div class="sticky-content" style="background-color:#fff;">
                 <div class="demo" style="height: 250px; background-color:#fff;">
@@ -209,10 +218,14 @@
   import WSticky from "./components/sticky/src/sticky";
   import WDivider from "./components/divider/src/divider";
   import WTable from "./components/table/src/table";
+  import WNewTable from "./components/table/src/new-table";
+  import TempTable from "./components/table/temp/temp-table";
 
   export default {
     name: 'app',
     components: {
+      TempTable,
+      WNewTable,
       WDivider,
       WSticky,
       WSlideItem,
@@ -233,28 +246,33 @@
         currentPage: 1,
         selected: '1',
         columns: [
-          {text: '姓名', field: 'name',width:100},
+          {
+            text: '姓名',
+            field: 'name',
+            slot:'name'
+          },
           {text: '分数', field: 'score',sortable:true},
+          {text: '描述', field: 'description'},
         ],
         dataSource: [
-          {id: 1, name: 'apple', score: 99},
-          {id: 2, name: 'banana', score: 100},
-          {id: 3, name: 'orange', score: 98},
-          {id: 4, name: 'juice', score: 96},
-          {id: 5, name: 'bubble', score: 89},
-          {id: 6, name: 'papa', score: 100},
-          {id: 7, name: 'apple', score: 99},
-          {id: 8, name: 'banana', score: 100},
-          {id: 9, name: 'orange', score: 98},
-          {id: 10, name: 'juice', score: 96},
-          {id: 11, name: 'bubble', score: 89},
-          {id: 12, name: 'papa', score: 100},
-          {id: 13, name: 'apple', score: 99},
-          {id: 14, name: 'banana', score: 100},
-          {id: 15, name: 'orange', score: 98},
-          {id: 16, name: 'juice', score: 96},
-          {id: 17, name: 'bubble', score: 89},
-          {id: 18, name: 'papa', score: 100},
+          {description:'nice',id: 1, name: 'apple', score: 99},
+          {description:'nice',id: 2, name: 'banana', score: 100},
+          {description:'nice',id: 3, name: 'orange', score: 98},
+          {description:'nice',id: 4, name: 'juice', score: 96},
+          {description:'nice',id: 5, name: 'bubble', score: 89},
+          {description:'nice',id: 6, name: 'papa', score: 100},
+          {description:'nice',id: 7, name: 'apple', score: 99},
+          {description:'nice',id: 8, name: 'banana', score: 100},
+          {description:'nice',id: 9, name: 'orange', score: 98},
+          {description:'nice',id: 10, name: 'juice', score: 96},
+          {description:'nice',id: 11, name: 'bubble', score: 89},
+          {description:'nice',id: 12, name: 'papa', score: 100},
+          {description:'nice',id: 13, name: 'apple', score: 99},
+          {description:'nice',id: 14, name: 'banana', score: 100},
+          {description:'nice',id: 15, name: 'orange', score: 98},
+          {description:'nice',id: 16, name: 'juice', score: 96},
+          {description:'nice',id: 17, name: 'bubble', score: 89},
+          {description:'nice',id: 18, name: 'papa', score: 100},
         ],
         selectedList: []
       }
