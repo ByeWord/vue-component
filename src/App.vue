@@ -193,7 +193,15 @@
                 </template>
             </temp-table>
         </div>
-
+        <div class="demo">
+            <w-checkbox-group v-model="options">
+                <w-checkbox label="apple">apple</w-checkbox>
+                <w-checkbox label="orange">orange</w-checkbox>
+                <w-checkbox label="banana">banana</w-checkbox>
+            </w-checkbox-group>
+            <hr>
+            <w-checkbox v-model="checkboxValue">banana</w-checkbox>
+        </div>
         <w-sticky distance="10" style="margin-bottom: 20px">
             <div class="sticky-content" style="background-color:#fff;">
                 <div class="demo" style="height: 250px; background-color:#fff;">
@@ -220,10 +228,14 @@
   import WTable from "./components/table/src/table";
   import WNewTable from "./components/table/src/new-table";
   import TempTable from "./components/table/temp/temp-table";
+  import WCheckbox from "./components/checkbox/src/checkbox";
+  import WCheckboxGroup from "./components/checkbox-group/src/checkbox-group";
 
   export default {
     name: 'app',
     components: {
+      WCheckboxGroup,
+      WCheckbox,
       TempTable,
       WNewTable,
       WDivider,
@@ -245,6 +257,8 @@
         inputValue: '',
         currentPage: 1,
         selected: '1',
+        checkboxValue:true,
+        options:['apple','orange'],
         columns: [
           {
             text: '姓名',

@@ -6,7 +6,7 @@
 
 <script>
   export default {
-    name: "WButton-group"
+    name: "WButton-withGroup"
   }
 </script>
 
