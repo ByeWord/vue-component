@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        [class*="content"]::after {
+            position: absolute;
+            box-sizing: border-box;
+            content: '';
+            pointer-events: none;
+            top: -50%;
+            right: -50%;
+            bottom: -50%;
+            left: -50%;
+            -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+            border: 0 solid black;
+        }
+        .item{
+            position: relative;
+        }
+        .content::after{
+            z-index: 1;
+            border-width: 0 1px 1px 0;
+        }
+        .content{
+            height: 200px;
+            width: 200px;
+            background-color: green;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+<div class="border">
+    <div class="item">
+        <div class="content">
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

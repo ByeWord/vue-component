@@ -1,6 +1,6 @@
 <!--v-if="pagers.length === 1 && hideOnSinglePage"-->
 <template>
-    <div class="w-pagination" v-if="pagers.length === 1 && hideOnSinglePage">
+    <div class="w-pagination">
         <!--<span class="w-pagination__total">共{{total}}条</span>-->
         <!--<span class="w-pagination__sizes">100条/页</span>-->
         <button class="btn-prev" :class="{disabled: currentPage === 1}" @click="prevClick">
@@ -87,21 +87,21 @@
           return false;
         }
       },
-      currentPage: {
+      currentPage: { //当前页码
         type: Number,
         default: 1
       },
-      prevText: {
+      prevText: { // 前一页的文本内容
         type: String,
       },
-      nextText: {
+      nextText: {//下一页的文本内容
         type: String,
       },
-      hideOnSinglePage: {
+      hideOnSinglePage: {//只有一页是否影藏
         type: Boolean,
         default: true
       },
-      disabled: {
+      disabled: { //禁止按
         type: Boolean,
         default: false
       }

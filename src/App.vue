@@ -134,11 +134,14 @@
         </div>
         <div class="demo">
             <h2 class="title">pagination</h2>
-            <w-pagination :total="1000" :current-change.sync="currentPage" :current-page="currentPage"></w-pagination>
+            <w-pagination :total="100"
+                          :current-change.sync="currentPage"
+                          :current-page="currentPage">
+            </w-pagination>
         </div>
         <div class="demo">
             <h2 class="title">scroll-view</h2>
-            <w-scroll-view style="height: 400px;">
+            <w-scroll-view  style="height: 400px;">
                 <p v-for="num in 50" :key="num">{{num}}</p>
             </w-scroll-view>
         </div>
@@ -202,13 +205,25 @@
             <hr>
             <w-checkbox v-model="checkboxValue">banana</w-checkbox>
         </div>
-        <w-sticky distance="10" style="margin-bottom: 20px">
-            <div class="sticky-content" style="background-color:#fff;">
-                <div class="demo" style="height: 250px; background-color:#fff;">
-                    <h2 class="title">sticky</h2>
-                </div>
-            </div>
-        </w-sticky>
+
+        <div class="demo">
+            <h1>Grid</h1>
+            <w-grid col-num="4">
+                <template v-for="count in 8">
+                    <w-grid-item>
+                        <div style="height: 200px;">{{count}}</div>
+                    </w-grid-item>
+                </template>
+            </w-grid>
+        </div>
+
+        <!--<w-sticky distance="10" style="margin-bottom: 20px">-->
+            <!--<div class="sticky-content" style="background-color:#fff;">-->
+                <!--<div class="demo" style="height: 250px; background-color:#fff;">-->
+                    <!--<h2 class="title">sticky</h2>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</w-sticky>-->
     </div>
 </template>
 
@@ -230,10 +245,14 @@
   import TempTable from "./components/table/temp/temp-table";
   import WCheckbox from "./components/checkbox/src/checkbox";
   import WCheckboxGroup from "./components/checkbox-group/src/checkbox-group";
+  import WGrid from "./components/gird/src/grid";
+  import WGridItem from "./components/grid-item/src/grid-item";
 
   export default {
     name: 'app',
     components: {
+      WGridItem,
+      WGrid,
       WCheckboxGroup,
       WCheckbox,
       TempTable,

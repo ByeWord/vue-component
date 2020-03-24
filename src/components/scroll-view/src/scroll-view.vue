@@ -31,7 +31,7 @@
       return {
         trackHeight: 0,
         scrollBarHeight: 0,
-        scrollBarVisible: false,
+        scrollBarVisible: true,
         scrollBarStartPos: {},
         scrollBarMoving: false,
         scrollBarTranslate: {x: 0, y: 0, z: 1},

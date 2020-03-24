@@ -149,4 +149,13 @@ height设置在该div上<br>
 
 2. 利用cloneNode这个api[浅拷贝]复制一份table<br>
 2.1 将原来table的thead通过appendChildren移动到copyTable上这样原来绑定的事件依旧存在<br>
-2.2 将
+
+
+#2020/03/16
+##开发一个grid宫格
+1. 可以显示边框
+	show-border
+	show-vertical-border
+	show-horizontal-border
+2. 可以设置每行的数目 默认3
+	col-num
